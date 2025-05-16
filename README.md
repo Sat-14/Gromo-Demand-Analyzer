@@ -1,4 +1,3 @@
-# Gromo-Demand-Analyzer
 Demand Prediction API
 A Flask-based REST API for predicting product demand and sales trends using machine learning models.
 
@@ -152,6 +151,6 @@ License
 MIT License
 
 Contributors
-Satwik Rai
+Your Name
 Acknowledgments
 Thanks to the Flask and scikit-learn communities for the excellent documentation and resources.
