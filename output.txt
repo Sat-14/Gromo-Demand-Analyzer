@@ -1,0 +1,669 @@
+
+C:\Users\samar\Desktop\DemandAnalyser\Gromo-Demand-Analyzer>c:/Users/samar/Desktop/DemandAnalyser/Gromo-Demand-Aalyzer/venv/Scripts/activate.bat
+
+(venv) C:\Users\samar\Desktop\DemandAnalyser\Gromo-Demand-Analyzer>python test_all.py
+
+================================================================================
+Testing: GET /
+Description: Get API information and available endpoints
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 2.03 seconds
+Response JSON: {
+  "endpoints": {
+    "GET /": "API information",
+    "GET /generate-sample-data/<count>": "Generate and add sample sales data",
+    "GET /health": "API health check",
+    "GET /models": "Get model details and evaluation metrics",
+    "GET /regions": "Get all region summaries",
+    "GET /regions/<region_id>": "Get a specific region summary",
+    "GET /stats": "API usage statistics",
+    "GET /version": "API version information",
+    "POST /predict/all": "Run all three prediction models",
+    "P...
+(Response truncated)
+✅ TEST PASSED
+
+================================================================================
+Testing: GET /regions
+Description: Get all region summaries
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 2.06 seconds
+Response JSON: {
+  "data": [
+    {
+      "avg_demand_per_pincode": 166.67,
+      "channels": {
+        "distribution": {
+          "offline": 0.35,
+          "online": 0.65
+        },
+        "top_channel": "online"
+      },
+      "demand_rise_flag": true,
+      "pincodes": [
+        "110001",
+        "110002",
+        "110003"
+      ],
+      "products": {
+        "distribution": {
+          "credit_card": 0.3,
+          "insurance": 0.15,
+          "loan": 0.55
+        },
+        "top_product": "loan"
+      }...
+(Response truncated)
+✅ TEST PASSED
+
+================================================================================
+Testing: GET /regions/1
+Description: Get details for a specific region
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 2.04 seconds
+Response JSON: {
+  "data": {
+    "avg_demand_per_pincode": 210.0,
+    "channels": {
+      "distribution": {
+        "offline": 0.6,
+        "online": 0.4
+      },
+      "top_channel": "offline"
+    },
+    "demand_rise_flag": true,
+    "pincodes": [
+      "400001",
+      "400002"
+    ],
+    "products": {
+      "distribution": {
+        "credit_card": 0.45,
+        "insurance": 0.2,
+        "loan": 0.35
+      },
+      "top_product": "credit_card"
+    },
+    "region_id": 1,
+    "total_demand": 420
+  },
+  "status"...
+✅ TEST PASSED
+
+================================================================================
+Testing: GET /models
+Description: Get model details and evaluation metrics
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 2.19 seconds
+Response JSON: {
+  "data": {
+    "evaluation": {
+      "binary_classification_metrics": {
+        "accuracy": 0.92,
+        "report": {
+          "0": {
+            "f1-score": 0.89
+          },
+          "1": {
+            "f1-score": 0.94
+          }
+        }
+      },
+      "dataset_size": 1000,
+      "multi_classification_metrics": {
+        "accuracy": 0.87,
+        "report": {
+          "0": {
+            "f1-score": 0.86
+          },
+          "1": {
+            "f1-score": 0.88
+          },
+          "...
+(Response truncated)
+✅ TEST PASSED
+
+================================================================================
+Testing: POST /predict/demand
+Description: Predict region demand using regression model
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 5.87 seconds
+Response JSON: {
+  "data": [
+    {
+      "channel": "online",
+      "confidence": 0.94,
+      "pincode": "400001",
+      "predicted_demand": 868.49,
+      "product": "loan"
+    }
+  ],
+  "status": "success"
+}...
+✅ TEST PASSED
+
+================================================================================
+Testing: POST /predict/demand-rise
+Description: Predict if demand will rise using binary classification model
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 2.08 seconds
+Response JSON: {
+  "data": [
+    {
+      "channel": "online",
+      "demand_rise": false,
+      "pincode": "400001",
+      "probability": 0.8,
+      "product": "loan"
+    }
+  ],
+  "status": "success"
+}...
+✅ TEST PASSED
+
+================================================================================
+Testing: POST /predict/top-product
+Description: Predict top product using multi-class classification model
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 2.07 seconds
+Response JSON: {
+  "data": [
+    {
+      "all_products": {
+        "credit_card": 0.29,
+        "insurance": 0.37,
+        "loan": 0.34
+      },
+      "channel": "online",
+      "pincode": "400001",
+      "probability": 0.37,
+      "top_product": "insurance"
+    }
+  ],
+  "status": "success"
+}...
+✅ TEST PASSED
+
+================================================================================
+Testing: POST /predict/all
+Description: Run all three prediction models at once
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 2.20 seconds
+Response JSON: {
+  "data": {
+    "demand": [
+      {
+        "channel": "online",
+        "confidence": 0.76,
+        "pincode": "400001",
+        "predicted_demand": 363.11,
+        "product": "loan"
+      }
+    ],
+    "demand_rise": [
+      {
+        "channel": "online",
+        "demand_rise": true,
+        "pincode": "400001",
+        "probability": 0.79,
+        "product": "loan"
+      }
+    ],
+    "top_product": [
+      {
+        "all_products": {
+          "credit_card": 0.38,
+          "insurance": 0.43...
+✅ TEST PASSED
+
+================================================================================
+Testing: POST /sales/add
+Description: Add sales data records directly to the database
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 2.06 seconds
+Response JSON: {
+  "data": {
+    "inserted_count": 1,
+    "invalid_records": null
+  },
+  "message": "Successfully added 1 sales records",
+  "status": "success"
+}...
+✅ TEST PASSED
+
+================================================================================
+Testing: GET /generate-sample-data/5
+Description: Generate and add 5 sample sales data records
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 2.37 seconds
+Response JSON: {
+  "data": {
+    "inserted_count": 5,
+    "sample": [
+      {
+        "_id": "68287c093060955fe1ce2363",
+        "agent_id": "e9792cb6-12c6-4256-ac90-8cea6e720b28",
+        "channel": "offline",
+        "city": "Boydbury",
+        "customer_age": 27,
+        "customer_income": 36947,
+        "date": "2024-05-26 19:41:39",
+        "inserted_at": "2025-05-17 17:37:37.142998",
+        "pincode": "32410",
+        "product": "loan"
+      }
+    ]
+  },
+  "message": "Generated and inserted 5 sample rec...
+✅ TEST PASSED
+
+================================================================================
+Testing: GET /health
+Description: Get API health status
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 2.03 seconds
+Response JSON: {
+  "checks": {
+    "models": "available",
+    "mongodb": "connected"
+  },
+  "status": "healthy"
+}...
+✅ TEST PASSED
+
+================================================================================
+Testing: GET /version
+Description: Get API version information
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 2.04 seconds
+Response JSON: {
+  "data": {
+    "api_version": "1.0.0",
+    "models_last_trained": "2025-05-17T17:36:29.197637"
+  },
+  "status": "success"
+}...
+✅ TEST PASSED
+
+================================================================================
+Testing: GET /stats
+Description: Get API usage statistics
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 2.07 seconds
+Response JSON: {
+  "data": {
+    "demand_prediction_count": 2,
+    "model_details_count": 3,
+    "sales_data_count": 1006,
+    "uploaded_data_count": 0
+  },
+  "status": "success"
+}...
+✅ TEST PASSED
+
+
+================================================================================
+TEST SUMMARY
+================================================================================
+root: ✅ PASSED
+regions: ✅ PASSED
+region_detail: ✅ PASSED
+models: ✅ PASSED
+predict_demand: ✅ PASSED
+predict_rise: ✅ PASSED
+predict_product: ✅ PASSED
+predict_all: ✅ PASSED
+add_sales: ✅ PASSED
+generate_sample: ✅ PASSED
+health: ✅ PASSED
+version: ✅ PASSED
+stats: ✅ PASSED
+
+Overall: 13/13 tests passed (100.0%)
+
+(venv) C:\Users\samar\Desktop\DemandAnalyser\Gromo-Demand-Analyzer>python test_all.py
+
+================================================================================
+Testing: GET /
+Description: Get API information and available endpoints
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 2.04 seconds
+Response JSON: {
+  "endpoints": {
+    "GET /": "API information",
+    "GET /generate-sample-data/<count>": "Generate and add sample sales data",
+    "GET /health": "API health check",
+    "GET /models": "Get model details and evaluation metrics",
+    "GET /regions": "Get all region summaries",
+    "GET /regions/<region_id>": "Get a specific region summary",
+    "GET /stats": "API usage statistics",
+    "GET /version": "API version information",
+    "POST /predict/all": "Run all three prediction models",
+    "P...
+(Response truncated)
+✅ TEST PASSED
+
+================================================================================
+Testing: GET /regions
+Description: Get all region summaries
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 2.05 seconds
+Response JSON: {
+  "data": [
+    {
+      "avg_demand_per_pincode": 166.67,
+      "channels": {
+        "distribution": {
+          "offline": 0.35,
+          "online": 0.65
+        },
+        "top_channel": "online"
+      },
+      "demand_rise_flag": true,
+      "pincodes": [
+        "110001",
+        "110002",
+        "110003"
+      ],
+      "products": {
+        "distribution": {
+          "credit_card": 0.3,
+          "insurance": 0.15,
+          "loan": 0.55
+        },
+        "top_product": "loan"
+      }...
+(Response truncated)
+✅ TEST PASSED
+
+================================================================================
+Testing: GET /regions/1
+Description: Get details for a specific region
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 2.03 seconds
+Response JSON: {
+  "data": {
+    "avg_demand_per_pincode": 210.0,
+    "channels": {
+      "distribution": {
+        "offline": 0.6,
+        "online": 0.4
+      },
+      "top_channel": "offline"
+    },
+    "demand_rise_flag": true,
+    "pincodes": [
+      "400001",
+      "400002"
+    ],
+    "products": {
+      "distribution": {
+        "credit_card": 0.45,
+        "insurance": 0.2,
+        "loan": 0.35
+      },
+      "top_product": "credit_card"
+    },
+    "region_id": 1,
+    "total_demand": 420
+  },
+  "status"...
+✅ TEST PASSED
+
+================================================================================
+Testing: GET /models
+Description: Get model details and evaluation metrics
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 2.07 seconds
+Response JSON: {
+  "data": {
+    "evaluation": {
+      "binary_classification_metrics": {
+        "accuracy": 0.92,
+        "report": {
+          "0": {
+            "f1-score": 0.89
+          },
+          "1": {
+            "f1-score": 0.94
+          }
+        }
+      },
+      "dataset_size": 1000,
+      "multi_classification_metrics": {
+        "accuracy": 0.87,
+        "report": {
+          "0": {
+            "f1-score": 0.86
+          },
+          "1": {
+            "f1-score": 0.88
+          },
+          "...
+(Response truncated)
+✅ TEST PASSED
+
+================================================================================
+Testing: POST /predict/demand
+Description: Predict region demand using regression model
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 2.20 seconds
+Response JSON: {
+  "data": [
+    {
+      "channel": "online",
+      "confidence": 0.76,
+      "pincode": "400001",
+      "predicted_demand": 459.11,
+      "product": "loan"
+    }
+  ],
+  "status": "success"
+}...
+✅ TEST PASSED
+
+================================================================================
+Testing: POST /predict/demand-rise
+Description: Predict if demand will rise using binary classification model
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 2.15 seconds
+Response JSON: {
+  "data": [
+    {
+      "channel": "online",
+      "demand_rise": true,
+      "pincode": "400001",
+      "probability": 0.63,
+      "product": "loan"
+    }
+  ],
+  "status": "success"
+}...
+✅ TEST PASSED
+
+================================================================================
+Testing: POST /predict/top-product
+Description: Predict top product using multi-class classification model
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 2.11 seconds
+Response JSON: {
+  "data": [
+    {
+      "all_products": {
+        "credit_card": 0.25,
+        "insurance": 0.36,
+        "loan": 0.39
+      },
+      "channel": "online",
+      "pincode": "400001",
+      "probability": 0.39,
+      "top_product": "loan"
+    }
+  ],
+  "status": "success"
+}...
+✅ TEST PASSED
+
+================================================================================
+Testing: POST /predict/all
+Description: Run all three prediction models at once
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 2.17 seconds
+Response JSON: {
+  "data": {
+    "demand": [
+      {
+        "channel": "online",
+        "confidence": 0.81,
+        "pincode": "400001",
+        "predicted_demand": 434.56,
+        "product": "loan"
+      }
+    ],
+    "demand_rise": [
+      {
+        "channel": "online",
+        "demand_rise": true,
+        "pincode": "400001",
+        "probability": 0.77,
+        "product": "loan"
+      }
+    ],
+    "top_product": [
+      {
+        "all_products": {
+          "credit_card": 0.29,
+          "insurance": 0.35...
+✅ TEST PASSED
+
+================================================================================
+Testing: POST /sales/add
+Description: Add sales data records directly to the database
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 2.03 seconds
+Response JSON: {
+  "data": {
+    "inserted_count": 1,
+    "invalid_records": null
+  },
+  "message": "Successfully added 1 sales records",
+  "status": "success"
+}...
+✅ TEST PASSED
+
+================================================================================
+Testing: GET /generate-sample-data/5
+Description: Generate and add 5 sample sales data records
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 2.08 seconds
+Response JSON: {
+  "data": {
+    "inserted_count": 5,
+    "sample": [
+      {
+        "_id": "68287f373060955fe1ce2369",
+        "agent_id": "3645db6f-dc57-4d1c-9528-efdc5d59e20d",
+        "channel": "online",
+        "city": "Jasminehaven",
+        "customer_age": 27,
+        "customer_income": 49006,
+        "date": "2024-07-02 09:14:34",
+        "inserted_at": "2025-05-17 17:51:11.915660",
+        "pincode": "51231",
+        "product": "insurance"
+      }
+    ]
+  },
+  "message": "Generated and inserted 5 sa...
+✅ TEST PASSED
+
+================================================================================
+Testing: GET /health
+Description: Get API health status
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 2.04 seconds
+Response JSON: {
+  "checks": {
+    "models": "available",
+    "mongodb": "connected"
+  },
+  "status": "healthy"
+}...
+✅ TEST PASSED
+
+================================================================================
+Testing: GET /version
+Description: Get API version information
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 2.06 seconds
+Response JSON: {
+  "data": {
+    "api_version": "1.0.0",
+    "models_last_trained": "2025-05-17T17:36:29.197637"
+  },
+  "status": "success"
+}...
+✅ TEST PASSED
+
+================================================================================
+Testing: GET /stats
+Description: Get API usage statistics
+================================================================================
+Status Code: 200 (Expected: 200)
+Response Time: 2.08 seconds
+Response JSON: {
+  "data": {
+    "demand_prediction_count": 2,
+    "model_details_count": 3,
+  "status": "success"
+}...
+✅ TEST PASSED
+
+
+================================================================================
+TEST SUMMARY
+================================================================================
+root: ✅ PASSED
+regions: ✅ PASSED
+region_detail: ✅ PASSED
+models: ✅ PASSED
+predict_demand: ✅ PASSED
+predict_rise: ✅ PASSED
+predict_product: ✅ PASSED
+predict_all: ✅ PASSED
+add_sales: ✅ PASSED
+generate_sample: ✅ PASSED
+health: ✅ PASSED
+version: ✅ PASSED
+stats: ✅ PASSED
+
+Overall: 13/13 tests passed (100.0%)
+
+(venv) C:\Users\samar\Desktop\DemandAnalyser\Gromo-Demand-Analyzer>
+
+
