@@ -760,7 +760,7 @@ Overall: 13/13 tests passed (100.0%)
 
 ## 👥 Contributors
 
-- [Your Name](https://github.com/yourusername)
+- [Satwik Rai](https://github.com/yourusername)
 
 ## 📄 License
 
@@ -771,6 +771,6 @@ MIT License
 <div align="center">
   
   <p>Built with ❤️ by Your Team</p>
-  <p>Need help? <a href="mailto:your.email@example.com">Contact us</a></p>
+  <p>Need help? <a href="mailto:pulakrai10@gmail.com">Contact us</a></p>
   
 </div>
