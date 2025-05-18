@@ -770,7 +770,7 @@ MIT License
 
 <div align="center">
   
-  <p>Built with ❤️ by Your Team</p>
+  <p>Built with ❤️ by Satwik Rai</p>
   <p>Need help? <a href="mailto:pulakrai10@gmail.com">Contact us</a></p>
   
 </div>
